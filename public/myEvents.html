@@ -14,29 +14,33 @@
   <body>
     <div class="sidebar">
       <button class="Profile" onclick="toggleMenu()">
+        <span>
           <i class="fas fa-user"></i>
           <div id="userEmailDiv"></div>
-      </button>
-      <div class="menu-items" id="menuItems">
+        </span>
+        <div class="menu-items" id="menuItems">
           <a href="#" id="logoutBtn">Logout</a>
-      </div>
-      <ul class="links">
-          <a href="home.html">
-              <i class="fas fa-home"></i> Home
-          </a>
-          <a href="myEvents.html">
-              <i class="fas fa-calendar-alt"></i> Events
-          </a>
-      </ul>
-      <button class="Settings" onclick="toggleSettingsMenu()">
-        <i class="fas fa-cog"></i> Settings
-        <div id="settingsMenuItems">
-            <a href="updatePassword.html" class="menu-link">Update Password</a>
-            <a href="#" id="deleteAccountBtn">Delete Account</a>
-            <!-- Add more settings options here -->
         </div>
       </button>
-  </div>
+      <ul class="links">
+        <a href="home.html">
+          <i class="fas fa-home"></i> Home
+        </a>
+        <a href="myEvents.html">
+          <i class="fas fa-calendar-alt"></i> Events
+        </a>
+      </ul>
+      <button class="Settings" onclick="toggleSettingsMenu()">
+        <span>
+          <i class="fas fa-cog"></i> Settings
+        </span>
+        <div class="menu-items" id="settingsMenuItems">
+          <a href="updatePassword.html" class="menu-link">Update Password</a>
+          <a href="#" id="deleteAccountBtn">Delete Account</a>
+          <!-- Add more settings options here -->
+        </div>
+      </button>
+    </div>
   
     <div class="main-content">
       <div class="header">

@@ -13,12 +13,14 @@
 <body>
   <div class="sidebar">
     <button class="Profile" onclick="toggleMenu()">
-      <i class="fas fa-user"></i>
-      <div id="userEmailDiv"></div>
+      <span>
+        <i class="fas fa-user"></i>
+        <div id="userEmailDiv"></div>
+      </span>
+      <div class="menu-items" id="menuItems">
+        <a href="#" id="logoutBtn">Logout</a>
+      </div>
     </button>
-    <div class="menu-items" id="menuItems">
-      <a href="#" id="logoutBtn">Logout</a>
-    </div>
     <ul class="links">
       <a href="home.html">
         <i class="fas fa-home"></i> Home
@@ -38,7 +40,6 @@
       </div>
     </button>
   </div>
-
 
 
   <div class="main-content">

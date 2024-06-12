@@ -49,100 +49,78 @@ const ImageSchema = new mongoose.Schema({
 });
 const Image = mongoose.model("Image", ImageSchema);
 
-app.post("/upload-temp", async (req, res) => {
+app.post('/upload-temp', async (req, res) => {
   const { imageData, eventId, username } = req.body;
 
   if (!imageData || !eventId || !username) {
-    console.error("Missing required data:", { imageData, eventId, username });
-    return res.status(400).json({ error: "Missing required data" });
+      console.error('Missing required data:', { imageData, eventId, username });
+      return res.status(400).json({ error: 'Missing required data' });
   }
 
   const image = new Image({
-    imageData,
-    faceData: {}, // Add any additional face data processing here
+      imageData,
+      faceData: {} // Add any additional face data processing here
   });
 
   try {
-    await image.save();
+      await image.save();
 
-    // Ensure the temp directory exists
-    const tempDir = path.join(__dirname, "public", "temp", username);
-    if (!fs.existsSync(tempDir)) {
-      fs.mkdirSync(tempDir, { recursive: true });
-    }
+      const tempDir = path.join(__dirname, 'public', 'temp', username);
+      if (!fs.existsSync(tempDir)) {
+          fs.mkdirSync(tempDir, { recursive: true });
+      }
 
-    // Save the image to the public/temp/ folder
-    const imgPath = path.join(tempDir, `${Date.now()}.jpg`);
-    const base64Data = imageData.replace(/^data:image\/jpeg;base64,/, "");
-    fs.writeFileSync(imgPath, base64Data, "base64");
+      const imgPath = path.join(tempDir, `${Date.now()}.jpg`);
+      const base64Data = imageData.replace(/^data:image\/jpeg;base64,/, "");
+      fs.writeFileSync(imgPath, base64Data, 'base64');
 
-    res.status(201).json({ message: "Image uploaded successfully" });
+      res.status(201).json({ message: 'Image uploaded successfully' });
   } catch (error) {
-    console.error("Error uploading image:", error);
-    res.status(500).json({ error: "Error uploading image: " + error.message });
+      console.error('Error uploading image:', error);
+      res.status(500).json({ error: 'Error uploading image: ' + error.message });
   }
 });
 
-app.post("/start-recognition", async (req, res) => {
+app.post('/start-recognition', (req, res) => {
   const { eventId, username } = req.body;
 
-  console.log("Received /start-recognition request:", { eventId, username }); // Log the request data
-
   if (!eventId || !username) {
-    console.error("Missing eventId or username:", { eventId, username });
-    return res.status(400).json({ error: "Missing eventId or username" });
+      console.error('Missing eventId or username:', { eventId, username });
+      return res.status(400).json({ error: 'Missing eventId or username' });
   }
 
-  const pythonScriptPath = path.join(__dirname, "face.py");
-  const command = `python ${pythonScriptPath} ${eventId} ${username}`;
+  const pythonScriptPath = path.join(__dirname, 'face.py');
+  const command = `python "${pythonScriptPath}" "${eventId}" "${username}"`;
 
-  console.log("Executing command:", command); // Log the command being executed
+  exec(command, (error, stdout, stderr) => {
+      if (error) {
+          console.error(`exec error: ${error}`);
+          return res.status(500).json({ error: `Error: ${stderr}` });
+      }
 
-  try {
-    const { stdout, stderr } = await new Promise((resolve, reject) => {
-      exec(command, (error, stdout, stderr) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve({ stdout, stderr });
-        }
-      });
-    });
+      let userImages;
+      try {
+          userImages = JSON.parse(stdout);
+      } catch (parseError) {
+          console.error('Error parsing JSON from Python script:', parseError);
+          return res.status(500).json({ error: 'Error processing recognition results' });
+      }
 
-    if (stderr) {
-      console.error(`exec error: ${stderr}`);
-      return res.status(500).json({ error: `Error: ${stderr}` });
-    }
-    // console.log(stdout)
-    // console.log(JSON.parse(stdout))
-
-    const userImages = JSON.parse(stdout); // Split the output by newline
-    console.log("User image paths:", userImages); // Log the user image paths
-
-    const updatedEvent = await updateEventWithUserImages(
-      eventId,
-      username,
-      userImages
-    );
-
-    if (!updatedEvent) {
-      console.error("Error updating event with user images");
-      return res
-        .status(500)
-        .json({ error: "Error updating event with user images" });
-    }
-
-    // const userImagesJSON =
-    //   updatedEvent.userImages && updatedEvent.userImages[username]
-    //     ? JSON.stringify(updatedEvent.userImages[username])
-    //     : null;
-
-    res.json({ success: true, userImages: userImages });
-  } catch (error) {
-    console.error("Error processing recognition results:", error);
-    res.status(500).json({ error: "Error processing recognition results" });
-  }
+      Event.findByIdAndUpdate(
+          eventId,
+          { $push: { userImages: { [username]: userImages } } },
+          { new: true, useFindAndModify: false },
+          (err, updatedEvent) => {
+              if (err) {
+                  console.error('Error updating event with user images:', err);
+                  return res.status(500).json({ error: 'Error updating event with user images' });
+              }
+              res.json(updatedEvent.userImages);
+          }
+      );
+  });
 });
+
 
 async function updateEventWithUserImages(eventId, username, userImages) {
   return await Event.findOneAndUpdate(

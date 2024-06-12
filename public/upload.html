@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="event.css">
+
+</head>
+<body>
+    <div class="container">
+        <!-- Form for uploading photos -->
+        <form class="userPhotoContainer" id="uploadForm" enctype="multipart/form-data">
+            <h3>Upload your photos</h3>
+            <input type="file" name="userPhoto" id="userPhoto" multiple class="upload-file" accept="image/*"
+                aria-label="Upload Image">
+            <button type="button" id="uploadBtn" value="Upload Image" class="submit-button btn-primary"
+                onclick="uploadPhoto()">
+                Upload Image
+            </button>
+        </form>
+    </div>
+    
+    <script>
+        
+    document.addEventListener("DOMContentLoaded", function() {
+        var uploadForm = document.getElementById("uploadForm");
+        if (uploadForm) {
+            uploadForm.addEventListener("submit", function (event) {
+                event.preventDefault(); // Prevent default form submission
+                uploadPhoto(); // Call the uploadPhoto function
+            });
+        }
+    });
+    
+        function uploadPhoto() {
+            var userPhotoInput = document.getElementById("userPhoto");
+            var uploadButton = document.getElementById("uploadBtn");
+        
+            // Display loading spinner or text
+            uploadButton.innerHTML = 'Uploading...';
+        
+            if (userPhotoInput.files.length === 0) {
+                alert("Please select at least one file to upload.");
+                uploadButton.innerHTML = "Upload Image";
+                return;
+            }
+        
+            var formData = new FormData();
+            for (var i = 0; i < userPhotoInput.files.length; i++) {
+                formData.append("eventPhotos", userPhotoInput.files[i]);
+            }
+        
+            // Retrieve event ID from localStorage
+            var eventId = localStorage.getItem("currentEventId");
+            if (!eventId) {
+                alert("Event ID is missing. Please try again or contact support.");
+                uploadButton.innerHTML = "Upload Image";
+                return;
+            }
+        
+            // Modify the endpoint to include the eventId
+            fetch(`/upload-event-photo/${eventId}`, {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json()) // assuming the server responds with JSON
+            .then(data => {
+                uploadButton.innerHTML = "Upload Image";
+                userPhotoInput.value = ""; // Reset the file input
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Photos uploaded successfully!',
+                        iconColor: "black"
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Upload failed',
+                        text: data.message || 'Please try again later.',
+                        iconColor: "black"
+                    });
+                }
+            })
+            .catch(error => {
+                console.error("Error uploading photos:", error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error uploading photos. Please try again later.',
+                    iconColor: "black"
+                });
+                uploadButton.innerHTML = "Upload Image";
+            });
+        }
+        // Assuming this script is included in upload.html or in a script that upload.html loads
+    
+        </script>
+        
+</body>
+</html>

@@ -1,0 +1,305 @@
+/* Use Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css");
+* {
+  font-family: "Nunito", sans-serif;
+}
+/* Body and Reset */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: #333;
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.swal2-confirm {
+  background-color: black !important;
+}
+
+.sidebar {
+  position: relative;
+  height: 100vh; /* Full viewport height */
+  min-width: 250px; /* Set the width of the sidebar */
+  background-color: rgba(0, 0, 0, 1); /* Dark background for the sidebar */
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 20px;
+  flex-shrink: 0;
+}
+
+/* Hide the scrollbar by default */
+.main-content {
+  padding: 20px;
+  flex: 0.8;
+  flex-grow: 1;
+  overflow: hidden; /* Hide scrollbar by default */
+}
+
+/* Show the scrollbar on hover */
+.main-content:hover {
+  overflow-y: auto; /* Show the scrollbar when hovered */
+}
+
+/* Webkit (Chrome, Safari) */
+.main-content::-webkit-scrollbar {
+  width: 5px; /* Adjust the width of the scrollbar */
+}
+
+/* Webkit (Chrome, Safari) */
+.main-content::-webkit-scrollbar-thumb {
+  background-color: #888; /* Color of the thumb */
+  border-radius: 10px; /* Rounded corners */
+}
+
+/* Firefox */
+.main-content {
+  scrollbar-width: thin; /* Adjust the width of the scrollbar */
+}
+
+/* Firefox */
+.main-content {
+  scrollbar-color: #888 transparent; /* Color of the thumb */
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.header #welcomeMessage {
+  margin-bottom: 5px; /* Reduce space between header and subtitle */
+  font-size: 2.5rem; /* Increase text size of the header */
+  text-align: left; /* Align header text to the left */
+}
+.header {
+  position: relative; /* Ensure positioning context for the logo */
+}
+
+.logo {
+  position: absolute;
+  top: 10px; /* Adjust top position as needed */
+  right: 10px; /* Adjust right position as needed */
+  width: 100px; /* Set width of the logo */
+  height: auto; /* Maintain aspect ratio */
+}
+.subHeader #thankYouMessage {
+  margin-top: 5px; /* Reduce space between header and subtitle */
+  font-size: 1.3rem; /* Increase text size of the subtitle */
+  text-indent: 18px; /* Move the text 20px to the left */
+}
+.links {
+  margin: 0;
+  padding: 0;
+}
+.links a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  color: rgba(255, 255, 255, 0.8);
+  display: block;
+}
+
+.links a:hover {
+  color: #ffffff;
+}
+
+.Profile {
+  display: flex;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: rgba(255, 255, 255, 0.8);
+  border: none;
+  cursor: pointer;
+  padding: 10px 15px;
+  font-size: 1rem;
+  gap: 10px;
+  align-items: center;
+  text-align: left;
+}
+
+.navbar .Profile:hover {
+  /* Define styles for hover state */
+  color: #ffffff;
+}
+.sidebar .links a {
+  display: flex;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: rgba(255, 255, 255, 0.8);
+  padding: 10px 15px;
+  gap: 10px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 1rem;
+  text-align: left;
+}
+
+.sidebar .links a i {
+  /* Adjust icon sizes if necessary */
+  min-width: 20px; /* Ensures icons align nicely */
+}
+.sidebar .links a:hover {
+  color: #ffffff; /* Brighter text on hover */
+  background-color: rgba(0, 0, 0, 1); /* Slightly darker background on hover */
+}
+
+.sidebar .Profile {
+  display: flex;
+  flex-direction: column !important;
+  justify-content: start;
+  align-items: start !important;
+}
+.sidebar .Profile span{
+  display: flex;
+  align-items: center;
+  gap:10px;
+}
+
+/* Menu Items */
+.menu-items {
+  display: none; /* Hide dropdown by default */
+  padding-left: 0; /* No padding */
+}
+.menu-items.active {
+  display: flex;
+}
+.menu-items a {
+  display: flex;
+  width: 100%;
+  color: white;
+  padding: 8px 20px;
+  text-decoration: none;
+}
+.menu-items a:hover {
+  background-color: #333;
+}
+.sidebar {
+  position: relative; /* Ensure the sidebar is positioned */
+}
+
+.Settings {
+  /* position: absolute; */
+  /* top: 145px;  */
+  /* left: 3%; */
+  z-index: 10;
+  position: relative;
+  background-color: transparent;
+  color: rgba(255, 255, 255, 0.8);
+  border: none;
+  outline: none;
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: start;
+  justify-content: start;
+  font-size: 1rem;
+}
+.Settings span {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.Settings:hover {
+  color: #ffffff;
+}
+
+#settingsMenuItems {
+  background: #000;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+  transform: translateY(10px);
+}
+
+#settingsMenuItems.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+  /* position: absolute; */
+  /* bottom: 10%;  */
+  width: 100%;
+}
+
+#settingsMenuItems.active a{
+  display: flex !important;
+}
+
+/* Card Layout for Events */
+
+/* Input Fields */
+.input-field,
+input[type="text"],
+input[type="date"],
+select {
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+  margin-bottom: 15px;
+}
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.modal .close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.modal .close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Button styles */
+.modal button {
+  padding: 10px 20px;
+  margin: 10px;
+  cursor: pointer;
+}
+/* Modal base styling */
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .navbar .links {
+    display: none;
+  }
+
+  .container,
+  .events {
+    padding: 10px;
+  }
+}

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+  <link rel="stylesheet" href="./home.css">
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./event.css">
+</head>
+
+<body>
+  <div class="sidebar">
+    <button class="Profile" onclick="toggleMenu()">
+      <span>
+        <i class="fas fa-user"></i>
+        <div id="userEmailDiv"></div>
+      </span>
+      <div class="menu-items" id="menuItems">
+        <a href="#" id="logoutBtn">Logout</a>
+      </div>
+    </button>
+    <ul class="links">
+      <a href="home.html">
+        <i class="fas fa-home"></i> Home
+      </a>
+      <a href="myEvents.html">
+        <i class="fas fa-calendar-alt"></i> Events
+      </a>
+    </ul>
+    <button class="Settings" onclick="toggleSettingsMenu()">
+      <span>
+        <i class="fas fa-cog"></i> Settings
+      </span>
+      <div class="menu-items" id="settingsMenuItems">
+        <a href="updatePassword.html" class="menu-link">Update Password</a>
+        <a href="#" id="deleteAccountBtn">Delete Account</a>
+        <!-- Add more settings options here -->
+      </div>
+    </button>
+  </div>
+
+  <div class="main-content">
+    <div class="header">
+      <h2 class="headerTitle" id="pageTitle"></h2>
+      <div id="linkContainer">
+        <!-- Update the button to trigger the copyToClipboardAndRedirect function -->
+        <button id="copyLinkBtn" class="btn-secondary" data-event-id="" data-event-name=""
+          onclick="copyToClipboard(this)">Copy Link</button>
+
+      </div>
+    </div>
+    <div class="photoListContainer">
+      <!-- Form for uploading photos -->
+      <form class="uploadContainer" id="uploadForm" enctype="multipart/form-data">
+        <h3 class="uploadTitle">Upload photos</h3>
+        <input type="file" name="userPhoto" id="userPhoto" multiple class="upload-file" accept="image/*"
+          aria-label="Upload Image">
+        <button type="submit" class="submit-button btn-primary">
+          Upload Image
+        </button>
+      </form>
+      <h2 class="photoListTitle">Photos</h2>
+      <div id="photoList" class="photoList">
+        <h4>No photos added</h4>
+      </div>
+    </div>
+  </div>
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <p>Are you sure you want to delete your account?</p>
+      <button id="confirmDelete">OK</button>
+      <button id="cancelDelete">Cancel</button>
+    </div>
+  </div>
+  <div id="validationModal" class="modal">
+    <div class="modal-content">
+      <span id="validationModalClose" class="close">&times;</span>
+      <p>Please select at least one file to upload.</p>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="events.js"></script>
+  <script src="./sidebar.js"></script>
+
+</body>
+
+</html>

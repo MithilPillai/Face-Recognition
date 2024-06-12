@@ -4,4 +4,4 @@ all_images/
 output/
 train/
 __pycache__/
-
+.env/

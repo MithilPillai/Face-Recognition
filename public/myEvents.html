@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+  <link rel="stylesheet" href="home.css">
+  <link rel="stylesheet" href="event.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+  <nav>
+    <button class="sidebar-toggle-btn" onclick="toggleSideBar()">
+      <i class="fas fa-bars"></i>
+    </button>
+    <img src="./logoMonk.png" alt="" class="navlogo" />
+    <h2>Chimpzlab</h2>
+  </nav>
+  <div id="overlay"></div>
+  <div class="sidebar">
+    <button class="Profile" onclick="toggleMenu()">
+      <span>
+        <i class="fas fa-user"></i>
+        <div id="userEmailDiv"></div>
+      </span>
+      <div class="menu-items" id="menuItems">
+        <a href="#" id="logoutBtn">Logout</a>
+      </div>
+    </button>
+    <ul class="links">
+      <a href="home.html">
+        <i class="fas fa-home"></i> Home
+      </a>
+      <a href="myEvents.html">
+        <i class="fas fa-calendar-alt"></i> Events
+      </a>
+    </ul>
+    <button class="Settings" onclick="toggleSettingsMenu()">
+      <span>
+        <i class="fas fa-cog"></i> Settings
+      </span>
+      <div class="menu-items" id="settingsMenuItems">
+        <a href="updatePassword.html" class="menu-link">Update Password</a>
+        <a href="#" id="deleteAccountBtn">Delete Account</a>
+      </div>
+    </button>
+  </div>
+
+  <div class="main-content">
+    <div class="header">
+      <h2 class="headerTitle" id="pageTitle">Manage Events</h2>
+    </div>
+
+    <div class="tab">
+      <button class="tablinks active" onclick="changeTab(event, 'allevents')">My Events</button>
+      <button class="tablinks" onclick="changeTab(event, 'createEvent')">Create New Event</button>
+    </div>
+
+    <div id="allevents" class="tabcontent">
+      <div id="eventList" class="eventList">
+        <h4 style="text-align: center;">No events added</h4>
+      </div>
+    </div>
+
+    <div id="createEvent" class="tabcontent eventFormContainer">
+      <form id="eventForm" class="eventForm">
+        <label for="eventName">Event Name:</label>
+        <input type="text" id="eventName" name="eventName" required>
+        <label for="venue">Venue:</label>
+        <input type="text" id="venue" name="venue" required>
+        <label for="eventDate">Date:</label>
+        <input type="date" id="eventDate" name="eventDate" required>
+        <label for="eventCategory">Category:</label>
+        <select id="eventCategory" name="eventCategory">
+          <option value="birthday">Birthday</option>
+          <option value="wedding">Wedding</option>
+          <option value="conference">Conference</option>
+        </select>
+        <button type="submit" id="create-event-btn" class="btn-primary">Create Event</button>
+      </form>
+    </div>
+
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>Are you sure you want to delete your account?</p>
+        <button id="confirmDelete">OK</button>
+        <button id="cancelDelete">Cancel</button>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="./home.js"></script>
+    <script src="./allEvents.js"></script>
+    <script src="./sidebar.js"></script>
+
+  </body>
+
+</html>
+
+
+
+
+
+
+
+

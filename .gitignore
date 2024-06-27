@@ -1,0 +1,7 @@
+/.env
+/venv
+/node_modules
+/train
+/all_images
+/output
+/face2.py

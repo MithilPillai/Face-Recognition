@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event</title>
+    <link rel="stylesheet" href="home.css" />
+    <link rel="stylesheet" href="event.css" />
+    <style>
+      .main-content {
+        padding: 0 !important;
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav>
+      <button class="sidebar-toggle-btn" onclick="toggleSideBar()">
+        <i class="fas fa-bars"></i>
+      </button>
+      <img src="./logoMonk.png" alt="" class="navlogo" />
+      <h2>Chimpzlab</h2>
+    </nav>
+    <div id="overlay"></div>
+    <div class="sidebar">
+      <button class="Profile" onclick="toggleMenu()">
+        <span>
+          <i class="fas fa-user"></i>
+          <div id="userEmailDiv"></div>
+        </span>
+        <div class="menu-items" id="menuItems">
+          <a href="#" id="logoutBtn">Logout</a>
+        </div>
+      </button>
+      <ul class="links">
+        <a href="home.html"> <i class="fas fa-home"></i> Home </a>
+        <a href="myEvents.html"> <i class="fas fa-calendar-alt"></i> Events </a>
+      </ul>
+      <button class="Settings" onclick="toggleSettingsMenu()">
+        <span> <i class="fas fa-cog"></i> Settings </span>
+        <div class="menu-items" id="settingsMenuItems">
+          <a href="updatePassword.html" class="menu-link">Update Password</a>
+          <a href="#" id="deleteAccountBtn">Delete Account</a>
+        </div>
+      </button>
+    </div>
+
+    <div class="main-content">
+      <!-- <button id="deleteToggleBtn" onclick="toggleDeleteMode()">Delete</button>
+      <button
+        id="deleteSelectedBtn"
+        onclick="deleteSelectedImages()"
+        style="display: none"
+      >
+        Delete Selected Images
+      </button> -->
+
+      <div class="header">
+        <h2 class="headerTitle" id="pageTitle"></h2>
+        <div id="linkContainer">
+          <button
+            id="copyLinkBtn"
+            class="btn-secondary"
+            data-event-id=""
+            data-event-name=""
+            onclick="copyToClipboard(this)"
+          >
+            Copy Link
+          </button>
+        </div>
+      </div>
+      <div class="photoListContainer">
+        <form
+          class="uploadContainer"
+          id="uploadForm"
+          enctype="multipart/form-data"
+        >
+          <h3 class="uploadTitle">Upload photos</h3>
+          <input
+            type="file"
+            name="userPhoto"
+            id="userPhoto"
+            multiple
+            class="upload-file"
+            accept="image/*"
+            aria-label="Upload Image"
+          />
+          <button type="submit" class="submit-button btn-primary">
+            Upload Image
+          </button>
+        </form>
+        <div class="photoListTitle">
+          <h2 class="title">Photos</h2>
+          <div>
+            <span id="photoCount"></span>
+            <button onclick="deleteSelectedImages()" class="deleteAllBtn">
+              <i class="fas fa-trash-can"></i>
+            </button>
+          </div>
+        </div>
+        <div id="photoList" class="photoList">
+          <h4>No photos added</h4>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal for displaying full-screen image -->
+    <div id="imageModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <a id="downloadBtn" href="" download class="download-button"
+          >Download</a
+        >
+        <img id="modalImage" src="" alt="Image" />
+      </div>
+    </div>
+
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>Are you sure you want to delete your account?</p>
+        <button id="confirmDelete">OK</button>
+        <button id="cancelDelete">Cancel</button>
+      </div>
+    </div>
+    <div id="validationModal" class="modal">
+      <div class="modal-content">
+        <span id="validationModalClose" class="close">&times;</span>
+        <p>Please select at least one file to upload.</p>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="events.js"></script>
+    <script src="sidebar.js"></script>
+    <script></script>
+  </body>
+</html>

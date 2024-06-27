@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chimpzlab</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://kit.fontawesome.com/f71dd563e6.js" crossorigin="anonymous"></script>
+
+  <body>
+    <div class="container">
+      <div class="form-box">
+        <h1 id="title">Sign Up</h1>
+        <!-- Sign Up and Sign In Form -->
+        <div id="signupFormContainer">
+          <form id="signupForm">
+            <!-- Input fields here... -->
+            <div class="input-group">
+              <div class="input-field" id="nameField">
+                <i class="fas fa-user"></i>
+                <input type="text" placeholder="Full Name" autocomplete="name" name="name" />
+              </div>
+              <div class="errorMessage" id="nameError"></div>
+              <div class="input-field" id="emailField">
+                <i class="fas fa-envelope"></i>
+                <input type="email" placeholder="Email" autocomplete="off" id="email" name="email" required />
+              </div>
+              <div class="errorMessage" id="emailError"></div>
+              <div class="input-field" id="contactField">
+                <i class="fas fa-phone"></i>
+                <input type="text" placeholder="Contact" autocomplete="off" name="contact" />
+              </div>
+              <div class="errorMessage" id="contactError"></div>
+              <div class="input-field" id="passwordField">
+                <i class="fas fa-lock"></i>
+                <input type="password" placeholder="Password" autocomplete="new-password" name="password" required />
+              </div>
+              <div class="errorMessage" id="passwordError"></div>
+              <div class="input-field" id="confirmPasswordField">
+                <i class="fas fa-lock"></i>
+                <input type="password" placeholder="Confirm Password" autocomplete="new-password"
+                  name="confirmPassword" />
+              </div>
+              <div class="errorMessage" class id="confirmPasswordError"></div>
+            </div>
+            <input type="hidden" id="tempUserId" name="tempUserId" />
+            <input type="text" id="tempOtp" name="tempOtp" style="display: none;" /> <!-- Add this line -->
+          </form>
+
+          <div id="forgotPasswordButton" style="display: none;">
+            <a href="#" id="forgotPasswordLink">Forgot Password?</a>
+          </div>
+          <!-- Sign In and Sign Up buttons -->
+          <div class="btn-field">
+            <button type="button" id="signupBtn">Sign Up</button>
+            <button type="button" id="signinBtn" class="disabled">
+              Sign In
+            </button>
+          </div>
+        </div>
+        <div id="forgotPasswordFormContainer" style="display:none;">
+          <div id="sendOtpContainer" style="display:none;">
+            <div class="input-field" id="emailField">
+              <i class="fas fa-envelope"></i>
+              <input type="email" placeholder="Enter your registered email" name="resetEmail" id="resetEmail"
+                required />
+            </div>
+            <div class="errorMessage" id="resetEmailError"></div>
+
+            <button type="button" class="btn-primary" id="sendOtpBtn">Send OTP</button>
+          </div>
+          <div id="verifyOtpContainer" style="display:none;">
+            <div class="input-field" id="emailField">
+              <i class="fas fa-envelope"></i>
+              <input type="text" id="otpInput" placeholder="Enter OTP" name="otpInput" required />
+            </div>
+            <div id="otpSentMessage" class="helperText"> </div>
+            <button type="button" class="btn-primary" id="verifyOtpBtn">Verify OTP</button>
+          </div>
+        </div>
+      </div>
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      <script>
+
+
+        const nameInput = document.querySelector("[name=name]");
+        const emailInput = document.querySelector("[name=email]");
+        const contactInput = document.querySelector("[name=contact]");
+        const passwordInput = document.querySelector("[name=password]");
+        const confirmPasswordInput = document.querySelector("[name=confirmPassword]");
+
+        // window.onload = function () {
+        //   nameInput.value = "John Doe";
+        //   const randomNum = Math.floor(Math.random() * 1000); // Generate a random 3-digit number
+        //   emailInput.value = `johndoe${randomNum}@example.com`; // Concatenate the random number to the email
+        //   contactInput.value = "1234567890";
+        //   passwordInput.value = "password123";
+        //   confirmPasswordInput.value = "password123";
+        // };
+
+        document.getElementById("otpInput").addEventListener("keypress", function (event) {
+          document.getElementById("otpSentMessage").innerHTML = "";
+        });
+        // Initial states
+        let isSignUpActive = true;
+        const fields = ["name", "email", "contact", "password", "confirmPassword"];
+        document
+          .getElementById("signupBtn")
+          .addEventListener("click", function (event) {
+            event.preventDefault();
+            if (!isSignUpActive) {
+              // Switch to sign-up mode
+              isSignUpActive = true;
+              document.getElementById("confirmPasswordField").style.display =
+                "flex";
+              document.getElementById("contactField").style.display = "flex";
+              document.getElementById("nameField").style.display = "flex";
+              document.getElementById("signinBtn").classList.add("disabled");
+              document.getElementById("signupBtn").classList.remove("disabled");
+              document.getElementById("forgotPasswordButton").style.display = "none";
+              title.innerHTML = "Sign Up"
+            } else {
+              // Proceed with sign-up functionality
+              submitSignUp();
+            }
+          });
+
+        document
+          .getElementById("signinBtn")
+          .addEventListener("click", function (event) {
+            event.preventDefault();
+            if (isSignUpActive) {
+              for (const field of fields) {
+                document.getElementById(`${field}Error`).innerHTML = "";
+              }
+              // Switch to sign-in mode
+              isSignUpActive = false;
+              document.getElementById("confirmPasswordField").style.display =
+                "none";
+              document.getElementById("forgotPasswordButton").style.display = "block";
+              document.getElementById("contactField").style.display = "none";
+              document.getElementById("nameField").style.display = "none";
+              document.getElementById("signupBtn").classList.add("disabled");
+              document.getElementById("signinBtn").classList.remove("disabled");
+              title.innerHTML = "Sign In"
+            } else {
+              // Proceed with sign-in functionality
+              submitSignIn();
+            }
+          });
+
+        function submitSignUp() {
+          let isFormValid = true;
+          for (const field of [nameInput, emailInput, contactInput, passwordInput, confirmPasswordInput]) {
+            if (!field.value.trim()) {
+              isFormValid = false;
+              const id = field.getAttribute('name');
+              document.getElementById(`${id}Error`).innerHTML = "This field is required";
+            } else {
+              const id = field.getAttribute('name');
+              document.getElementById(`${id}Error`).innerHTML = "";
+            }
+          }
+          if (!isFormValid) {
+            return;
+          }
+
+
+          const contact = contactInput.value.trim();
+          if (!/^\d{10}$/.test(contact)) {
+            document.getElementById("contactError").innerHTML = "Contact number should be a 10 digit number";
+            isFormValid = false;
+          } else {
+            document.getElementById("contactError").innerHTML = "";
+          }
+
+          if (!isFormValid) {
+            return;
+          }
+
+          if (passwordInput.value !== confirmPasswordInput.value) {
+            document.getElementById("confirmPasswordError").innerHTML = "Password and Confirm Password do not match";
+            return;
+          }
+          document.getElementById("confirmPasswordError").innerHTML = "";
+
+          fetch("http://localhost:3000/signup", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              name: nameInput.value,
+              email: emailInput.value,
+              contact: contactInput.value,
+              password: passwordInput.value,
+              confirmPassword: confirmPasswordInput.value
+            }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              localStorage.setItem("tempOtp", data.tempOtp);
+              Swal.fire({
+                text: data.message,
+                icon: "success",
+                iconColor: "black"
+              })
+              if (data.success) {
+                title.innerHTML = "Verify Otp";
+                document.getElementById("signupFormContainer").style.display = "none";
+                document.getElementById("forgotPasswordFormContainer").style.display = "block";
+                document.getElementById("sendOtpContainer").style.display = "none";
+                document.getElementById("verifyOtpContainer").style.display = "flex";
+                document.getElementById("tempUserId").value = data.tempUserId;
+              } else {
+                // Email already exists, show error message with a cross icon
+                Swal.fire({
+                  title: "Error",
+                  text: data.message,
+                  icon: "error",
+                  iconColor: "black"
+                });
+              }
+            })
+            .catch((error) => console.error("Error:", error));
+        }
+
+        function submitSignIn() {
+
+          let isFormValid = true;
+          for (const field of [emailInput, passwordInput]) {
+            if (!field.value.trim()) {
+              isFormValid = false;
+              const id = field.getAttribute('name');
+              document.getElementById(`${id}Error`).innerHTML = "This field is required";
+            } else {
+              const id = field.getAttribute('name');
+              document.getElementById(`${id}Error`).innerHTML = "";
+            }
+          }
+          if (!isFormValid) {
+            return;
+          }
+          const formData = new FormData(document.getElementById("signupForm"));
+          fetch("http://localhost:3000/signin", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: formData.get("email"),
+              password: formData.get("password"),
+            }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.success) {
+                Swal.fire({
+                  title: "Login Successful",
+                  text: data.message,
+                  icon: "success",
+                  iconColor: "black"
+                })
+                // Handle successful login, e.g., redirect to dashboard
+                localStorage.setItem("userId", data.userId);
+                setTimeout(() => {
+                  window.location.href = "home.html";
+                }, 1000);
+              }
+            })
+            .catch((error) => console.error("Error:", error));
+        }
+
+        document.getElementById("forgotPasswordLink").addEventListener("click", function (event) {
+          event.preventDefault();
+          title.innerHTML = "Forgot Password";
+
+          // Hide unnecessary fields and show only the email and OTP fields
+          document.getElementById("signupFormContainer").style.display = "none";
+          document.getElementById("forgotPasswordFormContainer").style.display = "block";
+          document.getElementById("sendOtpContainer").style.display = "flex";
+          document.getElementById("verifyOtpContainer").style.display = "none";
+        });
+
+        document.getElementById("sendOtpBtn").addEventListener("click", function (event) {
+          event.preventDefault();
+
+          // Get the email input value from the form
+          const resetEmail = document.getElementById("resetEmail").value;
+          if (resetEmail == "") {
+            document.getElementById("resetEmailError").innerHTML = "Please enter your registered email address.";
+          }
+          document.getElementById("resetEmailError").innerHTML = "";
+          // Send the email to the server to request OTP
+          fetch("http://localhost:3000/forgot-password", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: resetEmail
+            }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              Swal.fire({
+                title: "Success",
+                text: data.message,
+                icon: "success",
+                iconColor: "black"
+              });
+              if (data.success) {
+                document.getElementById("sendOtpContainer").style.display = "none";
+                document.getElementById("verifyOtpContainer").style.display = "flex";
+                document.getElementById("resetEmail").value = "";
+              }
+            })
+            .catch((error) => console.error("Error:", error));
+        });
+
+
+        document.getElementById("verifyOtpBtn").addEventListener("click", function (event) {
+          event.preventDefault();
+
+          // Get the email and OTP input values from the form
+          const tempOtp = localStorage.getItem("tempOtp");
+          const otpInput = document.getElementById("otpInput").value;
+
+          if (otpInput == tempOtp) {
+            // Send the email and OTP to the server for verification
+            fetch("http://localhost:3000/verify-otp", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                name: nameInput.value,
+                email: emailInput.value,
+                contact: contactInput.value,
+                password: passwordInput.value,
+                confirmPassword: confirmPasswordInput.value,
+              }),
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                if (data.success) {
+                  Swal.fire({
+                    title: "Verification Successful. Redirecting",
+                    text: data.message,
+                    icon: "success",
+                    iconColor: "black"
+                  });
+                  localStorage.setItem("userId", data.userId);
+                  setTimeout(() => {
+                    // check weather user is coming from forgot password or signUp
+                    window.location.href = "home.html";
+
+                  }, 1000);
+                }
+              })
+              .catch((error) => console.error("Error:", error));
+          } else {
+            document.getElementById("otpSentMessage").innerHTML = "Invalid OTP. Please try again.";
+            document.getElementById("otpSentMessage").style.color = "red";
+            document.getElementById("otpInput").value = "";
+          }
+        });
+
+      </script>
+  </body>
+
+</html>

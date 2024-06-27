@@ -1,0 +1,220 @@
+.container {
+  width: 100%;
+  height: 100vh;
+  background-color: white;
+  background-position: center;
+  background-size: cover;
+  position: relative;
+}
+
+.form-box {
+  width: 90%;
+  max-width: 450px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: black;
+  /* padding: 50px 137px 70px; */
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.form-box h1 {
+  font-size: 30px;
+  margin-bottom: 2rem;
+  color: whitesmoke;
+  position: relative;
+  padding: 0px 29px;
+}
+
+.form-box h1::after {
+  content: "";
+  width: 30px;
+  height: 4px;
+  border-radius: 3px;
+  background: whitesmoke;
+  position: absolute;
+  bottom: -12px;
+  left: 50%;
+  transform: translate(-50%);
+}
+
+#signupFormContainer,
+#forgotPasswordFormContainer {
+  width: 80%;
+}
+
+.input-field {
+  background: #eaeaea;
+  /* margin: 15px; */
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  max-height: 65px;
+  transition: max-height 0.5s;
+  overflow: hidden;
+}
+input {
+  background: transparent;
+  border: 0;
+  outline: 0;
+  padding: 16px 15px;
+  width: 100%;
+}
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.input-field i {
+  margin-left: 10px;
+  color: #999;
+}
+
+form p {
+  text-align: center;
+  font-size: 12px;
+}
+form p a {
+  text-decoration: none;
+  color: WH;
+}
+
+.btn-field {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.btn-field button {
+  flex-basis: 43%;
+  background: #3c00a0;
+  color: #fff;
+  height: 40px;
+  border-radius: 2px;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+  transition: background 1s;
+}
+
+.btn-field button.disabled {
+  background: #eaeaea;
+  color: #555;
+}
+
+.btn-primary {
+  width: 20%;
+  height: 40px;
+  align-self: center;
+  background: #000000;
+  color: #fff;
+  border-color: white !important;
+  border-radius: 4px;
+  border: 2px solid white;
+  outline: 0;
+  cursor: pointer;
+  transition: background 1s;
+}
+
+
+button#sendOtpBtn {
+  border-color: whitesmoke !important;
+}
+
+.btn-secondary {
+  width: 100%;
+  background: #000000;
+  color: #fff;
+  height: 40px;
+  border-radius: 3px;
+  border: 0;
+  outline: 0;
+  font-size: 1rem;
+  padding: 0px 1rem;
+  cursor: pointer;
+  transition: background 1s;
+}
+
+#sendOtpContainer,
+#verifyOtpContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#forgotPasswordButton {
+  width: 100%;
+  text-align: center;
+}
+
+.errorMessage {
+  color: red;
+  font-size: small;
+}
+
+.helperText {
+  color: whitesmoke;
+  font-size: small;
+}
+#updatePasswordForm {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 30px;
+}
+
+#updatePasswordForm .input-field {
+  width: 100%;
+}
+
+.btn-field button {
+  flex-basis: 100%;
+}
+
+#updatePasswordForm #currentPassword::placeholder {
+  text-align: left !important;
+}
+
+/* Targeting the placeholder of the "New Password" input field */
+#updatePasswordForm #newPassword::placeholder {
+  text-align: left !important;
+}
+
+#alertMessage {
+  display: none;
+  color: red;
+  font-size: small;
+  width: 100%;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: #ffe4e4;
+}
+
+.delete-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+.delete-btn:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+

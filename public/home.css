@@ -1,0 +1,506 @@
+/* Use Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css");
+* {
+  font-family: "Nunito", sans-serif;
+  box-sizing: border-box;
+}
+/* Body and Reset */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: #333;
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  /* overflow: hidden; */
+}
+
+.swal2-confirm {
+  background-color: black !important;
+}
+
+/* Sidebar Styles */
+.sidebar {
+  /* flex: 1 1 0; */
+  max-width: 300px;
+  padding: 3rem 1rem;
+  background-color: black;
+  color: white;
+  /* position: fixed; */
+  /* top: 0;
+  left: 0; */
+  z-index: 99;
+  transition: left 0.3s ease;
+}
+
+.sidebar.is-active {
+  left: 0;
+}
+
+.menu-toggle {
+  display: none;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: black;
+  cursor: pointer;
+  z-index: 100;
+}
+
+.hamburger {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 24px;
+}
+
+.hamburger > span,
+.hamburger > span::before,
+.hamburger > span::after {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 3px;
+  border-radius: 3px;
+  background-color: #fff;
+  transition-duration: 0.25s;
+}
+
+.hamburger > span::before {
+  content: "";
+  top: -7px;
+}
+.hamburger > span::after {
+  content: "";
+  top: 7px;
+}
+.menu-toggle.is-active .hamburger > span {
+  transform: rotate(45deg);
+}
+.menu-toggle.is-active .hamburger > span::before {
+  top: 0;
+  transform: rotate(0deg);
+}
+.menu-toggle.is-active .hamburger > span::after {
+  top: 0;
+  transform: rotate(90deg);
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+  /* margin-left: 300px; */
+  transition: margin-left 0.3s ease;
+  overflow: auto; /* Hide scrollbar by default */
+}
+
+/* Show the scrollbar on hover */
+.main-content:hover {
+  overflow-y: auto; /* Show the scrollbar when hovered */
+}
+
+/* Webkit (Chrome, Safari) */
+.main-content::-webkit-scrollbar {
+  width: 5px; /* Adjust the width of the scrollbar */
+}
+
+/* Webkit (Chrome, Safari) */
+.main-content::-webkit-scrollbar-thumb {
+  background-color: #888; /* Color of the thumb */
+  border-radius: 10px; /* Rounded corners */
+}
+
+/* Firefox */
+.main-content {
+  scrollbar-width: thin; /* Adjust the width of the scrollbar */
+}
+
+/* Firefox */
+.main-content {
+  scrollbar-color: #888 transparent; /* Color of the thumb */
+}
+
+.menu-toggle.is-active ~ .main-content {
+  margin-left: 0;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.header #welcomeMessage {
+  margin-bottom: 5px; /* Reduce space between header and subtitle */
+  font-size: 2.3rem; /* Adjust text size of the header */
+  text-align: left; /* Align header text to the left */
+  word-wrap: break-word; /* Enable word wrap */
+  overflow-wrap: break-word; /* Enable word wrap */
+  width: 100%; /* Ensure it takes full width */
+}
+.header {
+  position: relative; /* Ensure positioning context for the logo */
+}
+
+.logo {
+  position: fixed;
+  top: 10px; /* Adjust top position as needed */
+  right: 10px; /* Adjust right position as needed */
+  width: 100px; /* Set width of the logo */
+  height: auto; /* Maintain aspect ratio */
+}
+
+.subHeader #thankYouMessage {
+  margin-top: 5px; /* Reduce space between header and subtitle */
+  font-size: 1.2rem; /* Increase text size of the subtitle */
+  text-indent: 18px; /* Move the text 20px to the left */
+}
+
+.links {
+  margin: 0;
+  padding: 0;
+}
+.links a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  color: rgba(255, 255, 255, 0.8);
+  display: block;
+}
+
+.links a:hover {
+  color: #ffffff;
+}
+
+.Profile {
+  display: flex;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: rgba(255, 255, 255, 0.8);
+  border: none;
+  cursor: pointer;
+  padding: 10px 15px;
+  font-size: 1rem;
+  gap: 10px;
+  align-items: center;
+  text-align: left;
+}
+
+.Profile:hover {
+  color: #ffffff;
+}
+
+.navbar .Profile:hover {
+  /* Define styles for hover state */
+  color: #ffffff;
+}
+.sidebar .links a {
+  display: flex;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: rgba(255, 255, 255, 0.8);
+  padding: 10px 15px;
+  gap: 10px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 1rem;
+  text-align: left;
+}
+
+.sidebar .links a i {
+  /* Adjust icon sizes if necessary */
+  min-width: 20px; /* Ensures icons align nicely */
+}
+.sidebar .links a:hover {
+  color: #ffffff; /* Brighter text on hover */
+  background-color: rgba(0, 0, 0, 1); /* Slightly darker background on hover */
+}
+
+.sidebar .Profile {
+  display: flex;
+  flex-direction: column !important;
+  justify-content: start;
+  align-items: start !important;
+}
+.sidebar .Profile span {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Menu Items */
+.menu-items {
+  display: none; /* Hide dropdown by default */
+  padding-left: 0; /* No padding */
+}
+.menu-items.active {
+  display: flex;
+}
+.menu-items a {
+  display: flex;
+  width: 100%;
+  color: white;
+  padding: 8px 20px;
+  text-decoration: none;
+}
+.menu-items a:hover {
+  background-color: #333;
+}
+
+.Settings {
+  /* position: absolute; */
+  /* top: 145px;  */
+  /* left: 3%; */
+  z-index: 10;
+  position: relative;
+  background-color: transparent;
+  color: rgba(255, 255, 255, 0.8);
+  border: none;
+  outline: none;
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: start;
+  justify-content: start;
+  font-size: 1rem;
+}
+.Settings span {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.Settings:hover {
+  color: #ffffff;
+}
+
+#settingsMenuItems {
+  background: #000;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+  transform: translateY(10px);
+}
+
+#settingsMenuItems.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+  /* position: absolute; */
+  /* bottom: 10%;  */
+  width: 100%;
+}
+
+#settingsMenuItems.active a {
+  display: flex !important;
+}
+
+/* Card Layout for Events */
+
+/* Input Fields */
+.input-field,
+input[type="text"],
+input[type="date"],
+select {
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+  margin-bottom: 15px;
+}
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.modal .close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.modal .close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Button styles */
+.modal button {
+  padding: 10px 20px;
+  margin: 10px;
+  cursor: pointer;
+}
+nav {
+  display: none;
+}
+
+nav .sidebar-toggle-btn {
+  all: unset;
+  font-size: 1.2rem;
+  cursor: pointer;
+  height: 40px;
+  width: 40px;
+  display: grid;
+  place-items: center;
+  background-color: black;
+  border-radius: 50%;
+  color: white;
+}
+
+#overlay {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .logo {
+    display: none;
+  }
+
+  body {
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+  }
+  nav {
+    /* position: absolute;
+    top: 0;
+    left: 0; */
+    box-sizing: border-box;
+    height: 70px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    display: flex;
+    width: 100%;
+    gap: 10px;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  nav .navlogo {
+    height: 40px;
+    width: 40px;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+  #overlay {
+    z-index: 8888;
+  }
+  .sidebar {
+    box-sizing: border-box;
+    z-index: 9999;
+    position: absolute;
+    background-color: black;
+    top: 0;
+    height: 100%;
+    left: -500px;
+    max-width: 300px;
+  }
+
+  .sidebar.active {
+    left: 0;
+  }
+
+  .main-content {
+    margin-left: 0;
+  }
+
+  /* .menu-toggle.is-active ~ .main-content {
+    margin-left: 0;
+  } */
+}
+
+@media screen and (max-width: 400px) {
+  .sidebar a {
+    text-align: center;
+    float: none;
+  }
+}
+
+/* Modal CSS  */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.modal-content {
+  margin: 15% auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  max-width: 600px;
+}
+
+.modal-content img {
+  max-width: 100%;
+  height: auto;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 25px;
+  color: #fff;
+  font-size: 35px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: #999;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Modal CSS */

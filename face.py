@@ -81,6 +81,12 @@ def process_and_recognize_faces(event_folder, username):
     # Delete the temp folder after processing
     shutil.rmtree(user_input_directory)
 
+    # Delete the output folder after processing
+    shutil.rmtree(output_directory)
+
+
+    
+
     return imagesarr
 
 if __name__ == '__main__':

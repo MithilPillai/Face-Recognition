@@ -186,7 +186,7 @@ html {
   color: rgba(255, 255, 255, 0.8);
   border: none;
   cursor: pointer;
-  padding: 10px 15px;
+  padding: 10px 10px;
   font-size: 1rem;
   gap: 10px;
   align-items: center;
@@ -255,11 +255,11 @@ html {
   background-color: #333;
 }
 
-.Settings {
+/* .Settings {
   /* position: absolute; */
   /* top: 145px;  */
   /* left: 3%; */
-  z-index: 10;
+  /* z-index: 10;
   position: relative;
   background-color: transparent;
   color: rgba(255, 255, 255, 0.8);
@@ -274,10 +274,29 @@ html {
   align-items: start;
   justify-content: start;
   font-size: 1rem;
+} */ 
+
+.Settings {
+  z-index: 10;
+  position: relative;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: rgba(255, 255, 255, 0.8);
+  border: none;
+  cursor: pointer;
+  padding: 10px 10px;
+  text-decoration: none;
+  font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  align-items: start !important;
+  gap: 10px;
+  text-align: left;
 }
+
 .Settings span {
   display: flex;
-  align-items: center;
+  align-items: start ;
   gap: 10px;
 }
 

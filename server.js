@@ -14,7 +14,7 @@ const Event = require("./event");
 const { getImageListTemplate, getEventImagesTemplate } = require("./images");
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 const mongoURI = "mongodb://localhost:27017/chimpzlab_db";
 
 app.use(cors());
@@ -51,36 +51,67 @@ const Image = mongoose.model("Image", ImageSchema);
 
 // const fs = require('fs'); // Add this import if not already present
 
-app.delete("/events/:eventId/photos/:photoId", async (req, res) => {
-  const { eventId, photoId } = req.params;
+// app.delete("/events/:eventId/photos/:photoId", async (req, res) => {
+//   const { eventId, photoId } = req.params;
+//   console.log(`Received request to delete photo ${photoId} from event ${eventId}`);
 
+//   try {
+//     const event = await Event.findById(eventId);
+//     if (!event) {
+//       return res.status(404).json({ success: false, message: "Event not found" });
+//     }
+
+//     const photo = event.photos.id(photoId);
+//     if (!photo) {
+//       return res.status(404).json({ success: false, message: "Photo not found" });
+//     }
+
+//     const filePath = path.join(__dirname, `public/events/${eventId}/${photo.path}`);
+//     console.log(`Attempting to delete file: ${filePath}`);
+
+//     // Check if the file exists
+//     if (fs.existsSync(filePath)) {
+//       await fs.promises.unlink(filePath); // Delete the file from the filesystem
+//       console.log(`File deleted: ${filePath}`);
+//     } else {
+//       console.warn(`File not found: ${filePath}`);
+//     }
+
+//     photo.remove();
+//     await event.save();
+//     console.log(`Photo document removed from database: ${photoId}`);
+
+//     res.json({ success: true, message: "Photo deleted successfully" });
+//   } catch (error) {
+//     console.error("Error deleting image:", error);
+//     res.status(500).json({ success: false, message: "Error deleting image" });
+//   }
+// });
+
+app.delete('/events/:eventId/photos/:photoPath', async (req, res) => {
+  const { eventId, photoPath } = req.params;
+  
   try {
-    const event = await Event.findById(eventId);
-    if (!event) {
-      return res.status(404).json({ success: false, message: "Event not found" });
+    // Remove the image from the file system
+    const imagePath = path.join(__dirname, 'public', 'events', eventId, photoPath);
+    if (fs.existsSync(imagePath)) {
+      fs.unlinkSync(imagePath);
     }
+    
+    // Remove the image reference from the database
+    const event = await db.collection('events').updateOne(
+      { _id: new ObjectId(eventId) },
+      { $pull: { photos: { path: photoPath } } }
+    );
 
-    const photo = event.photos.id(photoId);
-    if (!photo) {
-      return res.status(404).json({ success: false, message: "Photo not found" });
-    }
-
-    const filePath = path.join(__dirname, `public/events/${eventId}/${photo.path}`);
-
-    // Check if the file exists
-    if (fs.existsSync(filePath)) {
-      await fs.promises.unlink(filePath); // Delete the file from the filesystem
+    if (event.modifiedCount > 0) {
+      res.json({ success: true });
     } else {
-      console.warn(`File not found: ${filePath}`);
+      res.json({ success: false, message: 'Image not found in database' });
     }
-
-    photo.remove();
-    await event.save();
-
-    res.json({ success: true, message: "Photo deleted successfully" });
   } catch (error) {
-    console.error("Error deleting image:", error);
-    res.status(500).json({ success: false, message: "Error deleting image" });
+    console.error('Error deleting image:', error);
+    res.status(500).json({ success: false, message: 'Error deleting image' });
   }
 });
 
@@ -804,6 +835,6 @@ app.use((req, res) => {
   res.status(404).send("Not found");
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+// app.listen(PORT, () => {
+//   // console.log(`Server is running on port ${PORT}`);
+// });

@@ -35,6 +35,65 @@
   border-radius: 5px;
   background-color: white;
   border: 1px solid lightgray;
+  width: auto;
+  max-width: 100%;
+  cursor: pointer;
+}
+
+.uploadContainer input[type="file"]::file-selector-button {
+  background-color: #1d1d1f;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.uploadContainer input[type="file"]::file-selector-button:hover {
+  background-color: #0a0a0a;
+}
+
+.submit-button {
+  background-color: #000; /* Black background */
+  color: #fff; /* White text */
+  border: none; /* Remove default border */
+  border-radius: 5px; /* Rounded corners */
+  padding: 10px 20px; /* Padding for the button */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s ease-in-out, transform 0.3s; /* Smooth transitions */
+  max-width: 150px; /* Reduced width */
+  align-self: center;
+}
+
+.submit-button:hover {
+  background-color: #333; /* Slightly lighter black on hover */
+  transform: translateY(-2px); /* Slight lift on hover */
+}
+
+.download-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px; /* Smaller size */
+  height: 30px; /* Smaller size */
+  background-color: white; /* Black background */
+  color: #fff; /* White icon */
+  border: none; /* Remove default border */
+  border-radius: 50%; /* Rounded button */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s ease-in-out, transform 0.3s; /* Smooth transitions */
+  text-decoration: none; /* Remove underline */
+}
+
+.download-button:hover {
+  background-color: #8c8c8c; /* Slightly lighter black on hover */
+  transform: translateY(-2px); /* Slight lift on hover */
+}
+
+.download-button svg {
+  stroke: black; /* White stroke for the icon */
+  width: 16px; /* Smaller icon size */
+  height: 16px; /* Smaller icon size */
 }
 
 .photoListTitle {
@@ -109,7 +168,7 @@
   position: relative;
 }
 .photoList .photo-container.selected {
-  border: 2px solid blue;
+  border: 2px solid white;
 }
 .photo-actions {
   position: absolute;
@@ -189,6 +248,22 @@
 .upload-btn:hover {
   background-color: #0a0a0a; /* Darker shade on hover */
   transform: translateY(-2px);
+}
+
+#copyLinkBtn {
+  background-color: #000; /* Black background */
+  color: #fff; /* White text */
+  border: none; /* Remove default border */
+  border-radius: 5px; /* Rounded corners */
+  padding: 10px 20px; /* Padding for the button */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s ease-in-out, transform 0.3s; /* Smooth transitions */
+  margin-left: -20px; /* Adjust the margin to move it left */
+}
+
+#copyLinkBtn:hover {
+  background-color: #333; /* Slightly lighter black on hover */
+  transform: translateY(-2px); /* Slight lift on hover */
 }
 
 .tab {
@@ -279,6 +354,47 @@
 .eventForm label {
   margin-top: 10px;
   font-weight: bold;
+}
+
+/* Delete Confirmation Modal styles */
+.delete-modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.delete-modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.delete-close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.delete-close:hover,
+.delete-close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+button {
+  margin: 5px;
 }
 
 @media screen and (max-width: 768px) {
